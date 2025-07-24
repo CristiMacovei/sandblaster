@@ -51,7 +51,12 @@ def test_iphone5_13E237(run_name, update_refs = False):
 
 	subprocess.run([
 		"docker", "exec", run_name,
-		"rm", "-rf", "/test/outputs/*"
+		"rm", "-rf", "/test/outputs"
+	])
+
+	subprocess.run([
+		"docker", "exec", run_name,
+		"mkdir", "/test/outputs"
 	])
 
 	subprocess.run([  #"echo",
@@ -110,7 +115,7 @@ def main():
 
 	run_name = start_run(container_name)
 
-	test_iphone5_13E237(run_name, True)
+	test_iphone5_13E237(run_name)
     
 	stop_run(container_name, run_name)
 	
