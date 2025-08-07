@@ -9,15 +9,25 @@ DIRNAME = os.path.dirname(os.path.abspath(__file__))
 MAINDIR = os.path.dirname(DIRNAME)
 
 def compare_directories(actual:pathlib.Path, expected: pathlib.Path):
-    actual_files = sorted(f.relative_to(actual) for f in actual.rglob("*") if f.is_file())
-    expected_files = sorted(f.relative_to(expected) for f in expected.rglob("*") if f.is_file())
+	actual_files = sorted(f.relative_to(actual) for f in actual.rglob("*") if f.is_file())
+	expected_files = sorted(f.relative_to(expected) for f in expected.rglob("*") if f.is_file())
 
-    assert actual_files == expected_files, "Mismatch in file names/structure"
+	assert actual_files == expected_files, "Mismatch in file names/structure"
 
-    for rel_path in actual_files:
-        actual_content = (actual / rel_path).read_bytes()
-        expected_content = (expected / rel_path).read_bytes()
-        assert actual_content == expected_content, f"Mismatch in file: {rel_path}"
+	for rel_path in actual_files:
+		if rel_path.suffix == ".sb":
+			parser_proc = subprocess.run([
+				os.path.join(MAINDIR, "sb_parser", "parser"),
+				(actual / rel_path),
+				(expected / rel_path)
+			])
+
+			assert parser_proc.returncode == 0, f"Mismatch in file: {rel_path}"
+
+		else:
+			actual_content = (actual / rel_path).read_bytes()
+			expected_content = (expected / rel_path).read_bytes()
+			assert actual_content == expected_content, f"Mismatch in file: {rel_path}"
 
 
 def build_image():
@@ -44,7 +54,7 @@ def stop_run(container_name, run_name):
 	subprocess.run([
 		"docker", "stop", run_name
 	])
-    
+	
 
 def test_iphone5_13E237(run_name, update_refs = False):
 	print(f'Running extract_sandbox_data on firmware 9.3...')
@@ -102,12 +112,17 @@ def test_iphone5_13E237(run_name, update_refs = False):
 	output_dir = pathlib.Path(DIRNAME, "iPhone5__1_9.3_13E237", "outputs")
 	reference_dir = pathlib.Path(DIRNAME, "iPhone5__1_9.3_13E237", "references")
 
-	try:
-		compare_directories(output_dir, reference_dir)
+	ret = subprocess.run([
+		"docker", "exec", run_name,
+		"/sandblaster/sb_parser/parser", "/test/outputs", "/test/references"
+	])
 	
+	if ret.returncode == 0:
 		print("[PASS] iPhone5_13E237 :)")
-	except AssertionError as err:
-		print(f"[FAIL] iPhone5_13E237 - {err}")
+	elif ret.returncode == 1:
+		print("[FAIL] iPhone5_13E237 :(")
+	else:
+		print("[ERROR] iPhone5_13E237 - cooked")
 
 
 def main():
@@ -116,7 +131,7 @@ def main():
 	run_name = start_run(container_name)
 
 	test_iphone5_13E237(run_name)
-    
+	
 	stop_run(container_name, run_name)
 	
 
