@@ -59,7 +59,7 @@ int Block::compare_to(Block *other, bool skip_print)
 		if (!skip_print) {
 			std::fprintf(stderr, "Block names differ: '%s' vs '%s'\n",
 						 this->m_hasher->reverse_hash(this->m_name).c_str(),
-						 other->m_hasher->reverse_hash(this->m_name).c_str());
+						 other->m_hasher->reverse_hash(other->m_name).c_str());
 		}
 
 		return this->m_name - other->m_name;
@@ -117,7 +117,7 @@ int Block::compare_to(Block *other, bool skip_print)
 			  block_comparator);
 
 	for (int i = 0; i < (int)(this->m_children.size()); ++i) {
-		int result = this->m_children[i]->compare_to(other->m_children[i], true);
+		int result = this->m_children[i]->compare_to(other->m_children[i], skip_print);
 
 		if (result != 0) {
 			if (!skip_print) {

@@ -1,3 +1,5 @@
+CXXFLAGS=-std=c++17
+
 default: parser
 
 block.o: block.hpp block.cpp
