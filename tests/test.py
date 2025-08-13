@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from datetime import datetime
 import pathlib
 import os
@@ -15,49 +16,74 @@ def compare_directories(actual:pathlib.Path, expected: pathlib.Path):
 	assert actual_files == expected_files, "Mismatch in file names/structure"
 
 	for rel_path in actual_files:
+		# skip sb files as they are checked separately
 		if rel_path.suffix == ".sb":
-			parser_proc = subprocess.run([
-				os.path.join(MAINDIR, "sb_parser", "parser"),
-				(actual / rel_path),
-				(expected / rel_path)
-			])
-
-			assert parser_proc.returncode == 0, f"Mismatch in file: {rel_path}"
+			continue
 
 		else:
 			actual_content = (actual / rel_path).read_bytes()
 			expected_content = (expected / rel_path).read_bytes()
 			assert actual_content == expected_content, f"Mismatch in file: {rel_path}"
 
-
-def build_image():
-	name = f'sandblaster-{datetime.now().strftime("%d_%m_%Y__%H_%M")}'
-
-	subprocess.run([
-		"docker", "build", "-t", name, MAINDIR
+	
+	parser_proc = subprocess.run([
+		os.path.join(MAINDIR, "sb_parser", "parser"),
+		(actual / "rev_profiles"),
+		(expected / "rev_profiles")
 	])
 
+	assert parser_proc.returncode == 0, f"Mismatch in file: {rel_path}"
+
+
+def build_image():
+	name = f'sandblaster_{datetime.now().strftime("%d_%m_%Y__%H_%M_%S")}'
+
+	docker_build_process = subprocess.run([
+		"sh", "-c", f"docker build -t {name} {MAINDIR} > build_logs/{name}.log"
+	])
+
+	if docker_build_process.returncode != 0:
+		print(f'[ERROR] Docker build failed, check build_logs/{name}.log for more details :(')
+		return 1
+
+	print(f'[INFO] Docker build {name} successful')
 	return name
 
-def start_run(container_name):
-	run_name = f"run_{container_name}"
+
+def remove_image(container_name):
+	print(f"[INFO] Removing container {container_name}")
+	
+	subprocess.run([
+		"docker", "rmi", container_name
+	])
+
+
+def start_run(container_name, test_name):
+	run_name = f"run_{container_name}_{test_name}"
+
+	test_path = os.path.join(DIRNAME, test_name)
+
+	print("[INFO] Run ID: ", end='')
+	sys.stdout.flush()
 
 	subprocess.run([
 		"docker", "run",
-		"-v", os.path.join(DIRNAME, "iPhone5__1_9.3_13E237") + ":" + "/test",
+		"-v", f"{test_path}:/test",
 		"--rm", "-dit", "--name", run_name, container_name
 	])
 
 	return run_name
 
-def stop_run(container_name, run_name):
+def stop_run(run_name):
 	subprocess.run([
 		"docker", "stop", run_name
 	])
-	
 
-def test_iphone5_13E237(run_name, update_refs = False):
-	print(f'Running extract_sandbox_data on firmware 9.3...')
+
+def generic_test(container_name, test_name, ios_major_version, ios_version, update_refs=False):
+	run_name = start_run(container_name, test_name)
+
+	print(f'[INFO] Running sandblaster test on {test_name} (iOS v{ios_major_version})...')
 
 	subprocess.run([
 		"docker", "exec", run_name,
@@ -69,29 +95,29 @@ def test_iphone5_13E237(run_name, update_refs = False):
 		"mkdir", "/test/outputs"
 	])
 
-	subprocess.run([  #"echo",
+	subprocess.run([
 		"docker", "exec", run_name,
-		"/sandblaster/helpers/extract_sandbox_data.py", "-o", "/test/outputs/sb_ops", "/test/inputs/sandbox.kext", "9.3"
+		"/sandblaster/helpers/extract_sandbox_data.py", "-o", "/test/outputs/sb_ops", "/test/inputs/sandbox.kext", ios_version
 	])
 
-	subprocess.run([  #"echo",
+	subprocess.run([
 		"docker", "exec", run_name,
-		"/sandblaster/helpers/extract_sandbox_data.py", "-O", "/test/outputs", "/test/inputs/sandbox.kext", "9.3"
+		"/sandblaster/helpers/extract_sandbox_data.py", "-O", "/test/outputs", "/test/inputs/sandbox.kext", ios_version
 	])
 
-	subprocess.run([  #"echo",
+	subprocess.run([
 		"docker", "exec", run_name,
 		"mkdir", "/test/outputs/rev_profiles"
 	])
 
-	subprocess.run([#  "echo",
+	subprocess.run([
 		"docker", "exec", run_name,
-		"sh", "-c", "cd /sandblaster/reverse-sandbox/ && python2.7 reverse_sandbox.py -r 9.3 -o /test/outputs/sb_ops -d /test/outputs/rev_profiles/ /test/outputs/sandbox_bundle -psb > /test/outputs/sandbox_profiles.txt"
+		"sh", "-c", f"cd /sandblaster/reverse-sandbox/ && python2.7 reverse_sandbox.py -r {ios_version} -o /test/outputs/sb_ops -d /test/outputs/rev_profiles/ /test/outputs/sandbox_bundle -psb > /test/outputs/sandbox_profiles.txt"
 	])
 
-	subprocess.run([  #"echo",
+	subprocess.run([
 		"docker", "exec", run_name,
-		"sh", "-c", "cd /sandblaster/reverse-sandbox/ && python2.7 reverse_sandbox.py -r 9.3 -o /test/outputs/sb_ops -d /test/outputs/rev_profiles/ /test/outputs/sandbox_bundle"
+		"sh", "-c", f"cd /sandblaster/reverse-sandbox/ && python2.7 reverse_sandbox.py -r {ios_version} -o /test/outputs/sb_ops -d /test/outputs/rev_profiles/ /test/outputs/sandbox_bundle"
 	])
 
 	if update_refs:
@@ -109,30 +135,25 @@ def test_iphone5_13E237(run_name, update_refs = False):
 
 	print(f'Comparing results...')	
 
-	output_dir = pathlib.Path(DIRNAME, "iPhone5__1_9.3_13E237", "outputs")
-	reference_dir = pathlib.Path(DIRNAME, "iPhone5__1_9.3_13E237", "references")
+	output_dir = pathlib.Path(DIRNAME, test_name, "outputs")
+	reference_dir = pathlib.Path(DIRNAME, test_name, "references")
 
-	ret = subprocess.run([
-		"docker", "exec", run_name,
-		"/sandblaster/sb_parser/parser", "/test/outputs", "/test/references"
-	])
+	try:
+		compare_directories(output_dir, reference_dir)
 	
-	if ret.returncode == 0:
-		print("[PASS] iPhone5_13E237 :)")
-	elif ret.returncode == 1:
-		print("[FAIL] iPhone5_13E237 :(")
-	else:
-		print("[ERROR] iPhone5_13E237 - cooked")
+		print(f"[PASS] {test_name} :)")
+	except AssertionError as err:
+		print(f"[FAIL] {test_name} - {err}")
+
+	stop_run(run_name)
 
 
 def main():
 	container_name = build_image()
 
-	run_name = start_run(container_name)
+	generic_test(container_name, "iPhone5__1_9.3_13E237", 9, ios_version="9.3")
 
-	test_iphone5_13E237(run_name)
-	
-	stop_run(container_name, run_name)
-	
+	# remove_image(container_name)
+
 
 main()
