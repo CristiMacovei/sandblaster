@@ -39,7 +39,7 @@ def build_image():
 	name = f'sandblaster_{datetime.now().strftime("%d_%m_%Y__%H_%M_%S")}'
 
 	docker_build_process = subprocess.run([
-		"sh", "-c", f"docker build -t {name} {MAINDIR} > build_logs/{name}.log"
+		"sh", "-c", f"docker build -t {name} {MAINDIR} > {os.path.join(DIRNAME, 'build_logs', name)}.log"
 	])
 
 	if docker_build_process.returncode != 0:
@@ -151,9 +151,9 @@ def generic_test(container_name, test_name, ios_major_version, ios_version, upda
 def main():
 	container_name = build_image()
 
-	generic_test(container_name, "iPhone5__1_9.3_13E237", 9, ios_version="9.3")
+	# generic_test(container_name, "iPhone5__1_9.3_13E237", 9, ios_version="9.3")
 
-	# remove_image(container_name)
+	remove_image(container_name)
 
 
 main()
