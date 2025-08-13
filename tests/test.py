@@ -151,7 +151,7 @@ def generic_test(container_name, test_name, ios_major_version, ios_version, upda
 def main():
 	container_name = build_image()
 
-	# generic_test(container_name, "iPhone5__1_9.3_13E237", 9, ios_version="9.3")
+	generic_test(container_name, "iPhone5__1_9.3_13E237", 9, ios_version="9.3")
 
 	remove_image(container_name)
 
