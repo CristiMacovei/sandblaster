@@ -32,7 +32,7 @@ def compare_directories(actual:pathlib.Path, expected: pathlib.Path):
 		(expected / "rev_profiles")
 	])
 
-	assert parser_proc.returncode == 0, f"Mismatch in file: {rel_path}"
+	assert parser_proc.returncode == 0, f"Mismatch in sb files"
 
 
 def build_image():
@@ -54,7 +54,7 @@ def remove_image(container_name):
 	print(f"[INFO] Removing container {container_name}")
 	
 	subprocess.run([
-		"docker", "rmi", container_name
+		"docker", "rmi", "-f", container_name
 	])
 
 
@@ -175,7 +175,7 @@ def main():
 
 	generic_test(container_name, "iPhone5__1_9.3_13E237", 9, ios_version="9.3")
 	
-	generic_test(container_name, "iPad2__1_8.4.1_12H321", 8, ios_version="8.4.1", update_refs=True)
+	generic_test(container_name, "iPad2__1_8.4.1_12H321", 8, ios_version="8.4.1")
 
 	remove_image(container_name)
 

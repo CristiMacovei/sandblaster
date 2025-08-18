@@ -370,13 +370,13 @@
 	(require-all
 		(literal "/private/var/mobile/Library/Cookies/com.apple.itunesstored.2.sqlitedb-shm")
 		(require-any
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2")))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(subpath "/Developer")
 		(require-any
@@ -426,11 +426,11 @@
 	(require-all
 		(regex #"^/private/var/Managed Preferences/mobile/com[.]apple[.].+[.]plist$")
 		(require-any
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.container2")))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(literal "/private/var/mobile/Library/Cookies/com.apple.itunesstored.2.sqlitedb")
 		(require-entitlement "com.apple.itunesstored.private"))
@@ -466,11 +466,11 @@
 		(regex #"^/private/var/Managed Preferences/mobile/com[.]apple[.].+[.]plist$")
 		(require-any
 			(require-entitlement "com.apple.system.get-wallpaper")
-			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))))
+					(entitlement-value "com.apple.itunesu")))
+			(require-entitlement "com.apple.container2")))
 	(require-all
 		(subpath "/private/var/mobile/Library/Caches/sharedCaches/com.apple.Radio.RadioRequestURLCache")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -534,12 +534,12 @@
 	(require-all
 		(regex #"^/private/var/mobile/Library/SpringBoard/LockBackgroundThumbnail[.]jpg$" #"^/private/var/mobile/Library/SpringBoard/HomeBackgroundThumbnail[.]jpg$" #"^/private/var/mobile/Library/SpringBoard/LockBackground[.]cpbitmap" #"^/private/var/mobile/Library/SpringBoard/[.]LockBackground[.]cpbitmap" #"^/private/var/mobile/Library/SpringBoard/HomeBackground[.]cpbitmap" #"^/private/var/mobile/Library/SpringBoard/[.]HomeBackground[.]cpbitmap")
 		(require-any
+			(require-entitlement "com.apple.system.get-wallpaper")
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.system.get-wallpaper")
-			(require-entitlement "com.apple.container2")))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(subpath "/private/var/mobile/Library/Safari")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -570,13 +570,13 @@
 	(require-all
 		(literal "/private/var/mobile/Library/Cookies/com.apple.itunesstored.2.sqlitedb-wal")
 		(require-any
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2")))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(regex #"^/private/var/mobile/Library/DeviceRegistry/[-0-9A-Z]+/NanoPreferencesSync/NanoDomains/com[.]apple[.]stocks[.]bridge$")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -733,21 +733,21 @@
 	(require-all
 		(subpath "/private/var/mobile/Library/Caches/sharedCaches/com.apple.iTunesStore.NSURLCache")
 		(require-any
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.private.signing-identifier"
+				(require-any
+					(entitlement-value "com.apple.iBooks")
+					(entitlement-value "com.apple.itunesu")))))
+	(require-all
+		(regex #"^/private/var/Managed Preferences/mobile/com[.]apple[.].+[.]plist$")
+		(require-any
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
 					(entitlement-value "com.apple.itunesu")))
 			(require-entitlement "com.apple.container2")))
-	(require-all
-		(regex #"^/private/var/Managed Preferences/mobile/com[.]apple[.].+[.]plist$")
-		(require-any
-			(require-entitlement "com.apple.private.signing-identifier"
-				(require-any
-					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.container2")
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))))
 	(require-all
 		(literal "/private/var/mobile/Library/Caches/com.apple.storeservices/AppPurchaseHistory.6.sqlitedb")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -853,9 +853,9 @@
 	(require-all
 		(literal "/private/var/mobile/Media/iTunes_Control/iTunes")
 		(require-any
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
@@ -874,11 +874,11 @@
 		(require-any
 			(require-entitlement "com.apple.private.signing-identifier"
 				(entitlement-value "com.apple.mobilesafari"))
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.container2")))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(regex #"^/private/var/Managed Preferences/mobile/com[.]apple[.].+[.]plist$")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -900,9 +900,9 @@
 	(require-all
 		(literal "/private/var/mobile/Media/iTunes_Control/iTunes/MediaLibrary.sqlitedb")
 		(require-any
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
@@ -910,13 +910,13 @@
 	(require-all
 		(literal "/private/var/mobile/Library/Cookies/com.apple.itunesstored.2.sqlitedb-journal")
 		(require-any
-			(require-entitlement "com.apple.container2")
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu"))))))
+					(entitlement-value "com.apple.itunesu")))
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari")))))
 (allow file-read-data
 	(regex #"^/private/var/ea/ea[.0-9]+$"))
 (allow file-read-metadata
@@ -948,18 +948,12 @@
 		(literal "/private/var/mobile/Media/PhotoData")
 		(extension "com.apple.tcc.kTCCServicePhotos"))
 	(require-all
-		(literal "/private/var/mobile")
-		(require-any
-			(require-entitlement "com.apple.private.signing-identifier"
-				(require-any
-					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.container2")
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))))
+		(literal "/private/var/mobile/Library/Preferences")
+		(require-entitlement "com.apple.private.signing-identifier"
+			(entitlement-value "com.apple.appletv.WhatsNew")))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-entitlement "platform-application"))
+		(require-entitlement "com.apple.bulletinboard.dataprovider"))
 	(require-all
 		(literal "/private/var/mobile/Library/Caches")
 		(vnode-type DIRECTORY)
@@ -976,10 +970,7 @@
 			(entitlement-value "com.apple.mobilesafari")))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-any
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilemail"))
-			(require-entitlement "com.apple.media.ringtones.read-only")))
+		(require-entitlement "com.apple.system.set-alert-tone"))
 	(require-all
 		(literal "/private/var/mobile/Library/Logs/CrashReporter/PersistentConnection")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -1020,22 +1011,19 @@
 					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-entitlement "com.apple.private.signing-identifier"
-			(entitlement-value "com.apple.appletv.WhatsNew")))
+		(extension "com.apple.tcc.kTCCServicePhotos"))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
 		(require-entitlement "com.apple.private.signing-identifier"
-			(entitlement-value "com.apple.Maps")))
+			(entitlement-value "com.apple.stocks.watchkitextension")))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
 		(require-any
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.container2")
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(literal "/private/var/mobile/Library/Caches/sharedCaches")
 		(vnode-type DIRECTORY)
@@ -1048,51 +1036,49 @@
 	(require-all
 		(literal "/private/var/mobile")
 		(require-any
-			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
 					(entitlement-value "com.apple.itunesu")))
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.system.get-wallpaper")))
 	(require-all
 		(vnode-type REGULAR-FILE)
 		(extension "com.apple.private.safe-move.receive"))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-entitlement "com.apple.private.signing-identifier"
-			(entitlement-value "com.apple.stocks.watchkitextension")))
+		(require-any
+			(require-entitlement "com.apple.private.signing-identifier"
+				(require-any
+					(entitlement-value "com.apple.iBooks")
+					(entitlement-value "com.apple.itunesu")))
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
+			(require-entitlement "com.apple.container2")))
 	(require-all
 		(literal "/private/var/mobile/Library/Caches/sharedCaches")
 		(require-entitlement "com.apple.private.signing-identifier"
 			(entitlement-value "com.apple.Music")))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-any
-			(require-entitlement "com.apple.container2")
-			(require-entitlement "com.apple.private.signing-identifier"
-				(require-any
-					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))))
+		(require-entitlement "com.apple.itunesstored.private"))
 	(require-all
 		(literal "/private/var/mobile/Library/com.apple.iTunesStore/LocalStorage")
 		(vnode-type DIRECTORY)
 		(require-any
 			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
+			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
 		(require-any
-			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
-				(require-any
-					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.system.get-wallpaper")))
+				(entitlement-value "com.apple.mobilemail"))
+			(require-entitlement "com.apple.media.ringtones.read-only")))
 	(require-all
 		(vnode-type REGULAR-FILE)
 		(extension "com.apple.private.safe-move.send"))
@@ -1119,7 +1105,7 @@
 		(literal "/private/var/mobile/Library/Caches/com.apple.DictionaryServices"))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-entitlement "com.apple.system.set-alert-tone"))
+		(require-entitlement "platform-application"))
 	(require-all
 		(literal "/private/var/mobile")
 		(require-entitlement "com.apple.system.set-alert-tone"))
@@ -1129,17 +1115,6 @@
 	(require-all
 		(literal "/private/var/mobile/Library/com.apple.iTunesStore")
 		(require-any
-			(require-entitlement "com.apple.private.signing-identifier"
-				(require-any
-					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2")))
-	(require-all
-		(literal "/private/var/mobile/Library/com.apple.iTunesStore")
-		(vnode-type DIRECTORY)
-		(require-any
 			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
@@ -1147,6 +1122,17 @@
 					(entitlement-value "com.apple.itunesu")))
 			(require-entitlement "com.apple.private.signing-identifier"
 				(entitlement-value "com.apple.mobilesafari"))))
+	(require-all
+		(literal "/private/var/mobile/Library/com.apple.iTunesStore")
+		(vnode-type DIRECTORY)
+		(require-any
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
+			(require-entitlement "com.apple.private.signing-identifier"
+				(require-any
+					(entitlement-value "com.apple.iBooks")
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(literal "/private/var/mobile")
 		(require-entitlement "com.apple.bulletinboard.dataprovider"))
@@ -1187,6 +1173,16 @@
 				(entitlement-value "com.apple.Safari.SocialHelper"))))
 	(require-all
 		(literal "/private/var/mobile")
+		(require-any
+			(require-entitlement "com.apple.private.signing-identifier"
+				(require-any
+					(entitlement-value "com.apple.iBooks")
+					(entitlement-value "com.apple.itunesu")))
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
+			(require-entitlement "com.apple.container2")))
+	(require-all
+		(literal "/private/var/mobile")
 		(require-entitlement "com.apple.private.signing-identifier"
 			(entitlement-value "com.apple.appletv.WhatsNew")))
 	(require-all
@@ -1203,10 +1199,13 @@
 			(entitlement-value "com.apple.Maps")))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(require-entitlement "com.apple.itunesstored.private"))
-	(require-all
-		(literal "/private/var/mobile/Library/Preferences")
-		(require-entitlement "com.apple.bulletinboard.dataprovider"))
+		(require-any
+			(require-entitlement "com.apple.private.signing-identifier"
+				(require-any
+					(entitlement-value "com.apple.iBooks")
+					(entitlement-value "com.apple.itunesu")))
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.system.get-wallpaper")))
 	(require-all
 		(literal "/private/var/mobile/Library/Caches/com.apple.storeservices")
 		(vnode-type DIRECTORY)
@@ -1214,17 +1213,18 @@
 			(entitlement-value "com.apple.ios.StoreKitUIService")))
 	(require-all
 		(literal "/private/var/mobile/Library/Preferences")
-		(extension "com.apple.tcc.kTCCServicePhotos"))
+		(require-entitlement "com.apple.private.signing-identifier"
+			(entitlement-value "com.apple.Maps")))
 	(require-all
 		(literal "/private/var/mobile/Library/com.apple.iTunesStore/LocalStorage")
 		(require-any
+			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
 					(entitlement-value "com.apple.itunesu")))
 			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2"))))
+				(entitlement-value "com.apple.mobilesafari")))))
 (allow file-write*
 	(require-all
 		(require-not (regex #"/com[.]apple[.]sandbox$" #"/com[.]apple[.]sandbox/" #".+/com[.]apple[.]sandbox$" #".+/com[.]apple[.]sandbox/"))
@@ -2091,13 +2091,13 @@
 	(require-all
 		(global-name "com.apple.itunescloudd.xpc")
 		(require-any
+			(require-entitlement "com.apple.container2")
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))
-			(require-entitlement "com.apple.container2")))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(global-name "com.apple.coremedia.recorder")
 		(require-entitlement "com.apple.private.signing-identifier"
@@ -2199,7 +2199,7 @@
 		(extension "com.apple.tcc.kTCCServicePhotos"))
 	(require-all
 		(global-name "com.apple.absd")
-		(require-entitlement "abs-client"
+		(require-entitlement "absinthe-client"
 			(entitlement-value-regex #".+")))
 	(require-all
 		(global-name "com.apple.itunesstored.xpc")
@@ -2303,13 +2303,13 @@
 	(require-all
 		(global-name "com.apple.medialibraryd.xpc")
 		(require-any
+			(require-entitlement "com.apple.private.signing-identifier"
+				(entitlement-value "com.apple.mobilesafari"))
 			(require-entitlement "com.apple.container2")
 			(require-entitlement "com.apple.private.signing-identifier"
 				(require-any
 					(entitlement-value "com.apple.iBooks")
-					(entitlement-value "com.apple.itunesu")))
-			(require-entitlement "com.apple.private.signing-identifier"
-				(entitlement-value "com.apple.mobilesafari"))))
+					(entitlement-value "com.apple.itunesu")))))
 	(require-all
 		(global-name "com.apple.bulletinboard.settingsconnection")
 		(require-entitlement "com.apple.bulletinboard.settings"))
@@ -2354,7 +2354,7 @@
 		(require-entitlement "platform-application"))
 	(require-all
 		(global-name "com.apple.absd")
-		(require-entitlement "absinthe-client"
+		(require-entitlement "abs-client"
 			(entitlement-value-regex #".+")))
 	(require-all
 		(global-name "com.apple.suggestd.suggestionmanager")
